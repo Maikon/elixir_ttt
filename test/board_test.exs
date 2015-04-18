@@ -13,4 +13,22 @@ defmodule BoardTest do
                             8, 9, 10, 11,
                             12, 13, 14, 15]
   end
+
+  test "marks a position on the board" do
+    assert Board.make_move(0, "x", Board.new) == ["x", 1, 2,
+                                                   3, 4, 5,
+                                                   6, 7, 8]
+  end
+
+  test "returns board unchanged if move is invalid" do
+    assert Board.make_move(10, "x", Board.new) == [0, 1, 2,
+                                                   3, 4, 5,
+                                                   6, 7, 8]
+  end
+
+  test "returns board unchanged if move is negative" do
+    assert Board.make_move(-1, "x", Board.new) == [0, 1, 2,
+                                                   3, 4, 5,
+                                                   6, 7, 8]
+  end
 end

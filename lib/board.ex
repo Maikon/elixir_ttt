@@ -4,7 +4,9 @@ defmodule Board do
 
   def new, do: board(@three_by_three)
   def new(@four_by_four), do: board(@four_by_four)
-  def new(custom_board), do: custom_board
+
+  def make_move(position, mark, board) when position >= 0, do: List.replace_at(board, position, mark)
+  def make_move(_, _, board), do: board
 
   defp board(size) do
     Enum.take(0..(size * size), (size * size))
