@@ -12,16 +12,20 @@ defmodule Board do
     end
   end
 
+  def rows(board) do
+    Enum.chunk(board, board |> length |> :math.sqrt |> round)
+  end
+
   defp board(size) do
-    Enum.take(0..(size * size), (size * size))
+    List.duplicate("", size * size)
   end
 
   defp position_is_valid?(position, board) do
-     position_not_taken(board, position) && position_is_within_bounds(position)
+     position_is_free(board, position) && position_is_within_bounds(position)
   end
 
-  defp position_not_taken(board, position) do
-    Enum.at(board, position) |> is_number
+  defp position_is_free(board, position) do
+    Enum.at(board, position, "invalid") |> String.length == 0
   end
 
   defp position_is_within_bounds(position) do
