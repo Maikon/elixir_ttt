@@ -1,6 +1,7 @@
 defmodule Board do
   @three_by_three 3
   @four_by_four 4
+  @empty_position ""
 
   def new, do: board(@three_by_three)
   def new(@four_by_four), do: board(@four_by_four)
@@ -24,7 +25,7 @@ defmodule Board do
   end
 
   defp board(size) do
-    List.duplicate("", size * size)
+    List.duplicate(@empty_position, size * size)
   end
 
   defp position_is_valid?(position, board) do
@@ -34,7 +35,7 @@ defmodule Board do
   defp position_value({value, _}), do: value
   defp position_index({_, index}), do: index
 
-  defp is_free?(position), do: position == ""
+  defp is_free?(position), do: position == @empty_position
   defp is_free?(board, position) do
     Enum.at(board, position, "invalid") |> String.length == 0
   end
