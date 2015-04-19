@@ -72,6 +72,22 @@ defmodule BoardTest do
     assert winner_in?(empty_board) == false
   end
 
+  test "when the game is ongoing" do
+    assert Board.over?(empty_board) == false
+  end
+
+  test "when the game has a winner" do
+    board_with_win  = ["x", "", "", "x", "", "", "x", "", ""]
+
+    assert Board.over?(board_with_win) == true
+  end
+
+  test "when the game is a draw" do
+    board_with_draw  = ["x", "o", "x", "x", "o", "x", "o", "x", "o"]
+
+    assert Board.over?(board_with_draw) == true
+  end
+
   defp empty_board(), do: Board.new
   defp make_move_on_empty_board(position, mark), do: Board.mark_position(position, mark, Board.new)
   defp winner_in?(line), do: Board.winner(line)

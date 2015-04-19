@@ -13,6 +13,8 @@ defmodule Board do
     end
   end
 
+  def over?(board), do: winner(board) || draw(board)
+
   def winner(board) do
     all_lines = rows(board) ++ columns(board) ++ diagonals(rows(board))
     Enum.any?(all_lines, fn(line) -> Enum.all?(line, fn(position) -> matches_rest_of_the_positions(line, position) end) end)
@@ -27,6 +29,8 @@ defmodule Board do
     |> Enum.filter_map(&(is_free?(position_value(&1))),
                        &(position_index(&1)))
   end
+
+  defp draw(board), do: !winner(board) && available_moves(board) == []
 
   defp board(size) do
     List.duplicate(@empty_position, size * size)
