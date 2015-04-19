@@ -35,6 +35,44 @@ defmodule BoardTest do
                                         ["", "", "", ""],
                                         ["", "", "", ""]]
   end
+
+  test "finds winner in a row" do
+    top_row    = ["x", "x", "x", "", "", "", "", "", ""]
+    middle_row = ["", "", "", "x", "x", "x", "", "", ""]
+    bottom_row = ["", "", "", "", "", "", "x", "x", "x"]
+
+    assert winner_in?(top_row)    == true
+    assert winner_in?(middle_row) == true
+    assert winner_in?(bottom_row) == true
+  end
+
+  test "finds winner in a column" do
+    first_column  = ["x", "", "", "x", "", "", "x", "", ""]
+    second_column = ["", "x", "", "", "x", "", "", "x", ""]
+    third_column  = ["", "", "x", "", "", "x", "", "", "x"]
+
+    assert winner_in?(first_column)  == true
+    assert winner_in?(second_column) == true
+    assert winner_in?(third_column)  == true
+  end
+
+  test "finds winner in diagonals" do
+    left_diagonal = ["x", "", "",
+                     "", "x", "",
+                     "", "", "x"]
+    right_diagonal = ["", "", "x",
+                      "", "x", "",
+                      "x", "", ""]
+
+    assert winner_in?(left_diagonal) == true
+    assert winner_in?(right_diagonal) == true
+  end
+
+  test "returns false if there's no winner" do
+    assert winner_in?(Board.new) == false
+  end
+
   defp empty_board(), do: Board.new
   defp make_move_on_empty_board(move, mark), do: Board.make_move(move, mark, Board.new)
+  defp winner_in?(line), do: Board.winner(line)
 end
