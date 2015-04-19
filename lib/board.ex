@@ -16,15 +16,26 @@ defmodule Board do
     Enum.chunk(board, board |> length |> :math.sqrt |> round)
   end
 
+
+  def available_moves(board) do
+    Enum.with_index(board)
+    |> Enum.filter_map(&(is_free?(position_value(&1))),
+                       &(position_index(&1)))
+  end
+
   defp board(size) do
     List.duplicate("", size * size)
   end
 
   defp position_is_valid?(position, board) do
-     position_is_free(board, position) && position_is_within_bounds(position)
+     is_free?(board, position) && position_is_within_bounds(position)
   end
 
-  defp position_is_free(board, position) do
+  defp position_value({value, _}), do: value
+  defp position_index({_, index}), do: index
+
+  defp is_free?(position), do: position == ""
+  defp is_free?(board, position) do
     Enum.at(board, position, "invalid") |> String.length == 0
   end
 

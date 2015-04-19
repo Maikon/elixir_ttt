@@ -39,6 +39,11 @@ defmodule BoardTest do
                                                          "", "", ""]
   end
 
+  test "returns the available moves" do
+    board_with_move = Board.make_move(5, "x", Board.new)
+    assert Board.available_moves(board_with_move) == [0, 1, 2, 3, 4, 6, 7, 8]
+  end
+
   test "returns the rows for 3x3" do
     assert Board.rows(Board.new) == [["", "", ""],
                                      ["", "", ""],
