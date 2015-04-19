@@ -6,7 +6,7 @@ defmodule Board do
   def new, do: board(@three_by_three)
   def new(@four_by_four), do: board(@four_by_four)
 
-  def make_move(position, mark, board) do
+  def mark_position(position, mark, board) do
     cond do
       position_is_valid?(position, board) -> List.replace_at(board, position, mark)
       true -> board

@@ -15,7 +15,7 @@ defmodule BoardTest do
 
   test "board is unchanged if position is taken" do
     board_with_one_move = make_move_on_empty_board(0, "x")
-    assert Board.make_move(0, "o", board_with_one_move) == board_with_one_move
+    assert Board.mark_position(0, "o", board_with_one_move) == board_with_one_move
   end
 
   test "returns the available moves" do
@@ -69,10 +69,10 @@ defmodule BoardTest do
   end
 
   test "returns false if there's no winner" do
-    assert winner_in?(Board.new) == false
+    assert winner_in?(empty_board) == false
   end
 
   defp empty_board(), do: Board.new
-  defp make_move_on_empty_board(move, mark), do: Board.make_move(move, mark, Board.new)
+  defp make_move_on_empty_board(position, mark), do: Board.mark_position(position, mark, Board.new)
   defp winner_in?(line), do: Board.winner(line)
 end
