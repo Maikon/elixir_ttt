@@ -88,6 +88,13 @@ defmodule BoardTest do
     assert Board.over?(board_with_draw) == true
   end
 
+  test "knows the mark that goes next" do
+    board_with_one_move = make_move_on_empty_board(0, "x")
+
+    assert Board.current_mark(empty_board) == "x"
+    assert Board.current_mark(board_with_one_move) == "o"
+  end
+
   defp empty_board(), do: Board.new
   defp make_move_on_empty_board(position, mark), do: Board.mark_position(position, mark, Board.new)
   defp winner_in?(line), do: Board.winner(line)

@@ -30,6 +30,22 @@ defmodule Board do
                        &(position_index(&1)))
   end
 
+  def current_mark(board) do
+    if moves_left_is_odd_number?(board) do
+      "x"
+    else
+      "o"
+    end
+  end
+
+  defp moves_left_is_odd_number?(board) do
+    rem(moves_left(board), 2) == 0
+  end
+
+  defp moves_left(board) do
+    Enum.count(board) - Enum.count(available_moves(board))
+  end
+
   defp draw(board), do: !winner(board) && available_moves(board) == []
 
   defp board(size) do
