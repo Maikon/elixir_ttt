@@ -17,7 +17,7 @@ defmodule Board do
 
   def winner(board) do
     all_lines = rows(board) ++ columns(board) ++ diagonals(rows(board))
-    Enum.any?(all_lines, fn(line) -> Enum.all?(line, fn(position) -> matches_rest_of_the_positions(line, position) end) end)
+    all_lines |> Enum.any?(&(Enum.all?(&1, fn(position) -> matches_rest_of_the_positions(&1, position) end)))
   end
 
   def rows(board) do
@@ -31,20 +31,17 @@ defmodule Board do
   end
 
   def current_mark(board) do
-    if moves_left_is_odd_number?(board) do
-      "x"
-    else
-      "o"
-    end
+    turn_is_x?(board) |> get_mark
   end
 
-  defp moves_left_is_odd_number?(board) do
-    rem(moves_left(board), 2) == 0
-  end
-
-  defp moves_left(board) do
+  def moves_left(board) do
     Enum.count(board) - Enum.count(available_moves(board))
   end
+
+  defp get_mark(true),  do: "x"
+  defp get_mark(false), do: "o"
+
+  defp turn_is_x?(board), do: rem(moves_left(board), 2) == 0
 
   defp draw(board), do: !winner(board) && available_moves(board) == []
 
@@ -53,7 +50,7 @@ defmodule Board do
   end
 
   defp columns(board) do
-    transpose(rows(board))
+    rows(board) |> transpose
   end
 
   defp transpose([[]|_]), do: []
@@ -71,7 +68,7 @@ defmodule Board do
                  [d1, _, _, d4]]), do: [[a1, b2, c3, d4], [a4, b3, c2, d1]]
 
   defp position_is_valid?(position, board) do
-     is_free?(board, position) && position_is_within_bounds(position)
+     is_free?(position, board) && position_is_within_bounds(position)
   end
 
   defp matches_rest_of_the_positions(line, position) do
@@ -81,12 +78,8 @@ defmodule Board do
   defp position_value({value, _}), do: value
   defp position_index({_, index}), do: index
 
-  defp is_free?(position), do: position == @empty_position
-  defp is_free?(board, position) do
-    Enum.at(board, position, "invalid") |> String.length == 0
-  end
+  defp is_free?(position),        do: position == @empty_position
+  defp is_free?(position, board), do: Enum.at(board, position, "invalid-index") |> is_free?
 
-  defp position_is_within_bounds(position) do
-    position >= 0
-  end
+  defp position_is_within_bounds(position), do: position >= 0
 end
