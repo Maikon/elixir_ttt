@@ -13,28 +13,37 @@ defmodule Cli.Display do
     |> _show_board
   end
 
-  def ask_for_move,          do: IO.gets "Choose a move from the board: "
-  def ask_for_move(message), do: IO.gets message
+  def get_move,          do: ask_for_move |> _valid_move
+  def get_move(message), do: ask_for_move(message) |> _valid_move
 
-  def get_move,          do: ask_for_move |> Integer.parse |> _validate_move
-  def get_move(message), do: ask_for_move(message) |> Integer.parse |> _validate_move
+  def ask_for_move,          do: prompt_user_input_with_message("Choose a move from the board: ")
+  def ask_for_move(message), do: prompt_user_input_with_message(message)
 
+  def get_game_choice, do: ask_for_game_choice |> valid_choice
+  def get_game_choice(message), do: ask_for_game_choice(message) |> valid_choice
 
-  def get_game_choice, do: ask_for_game_choice |> Integer.parse |>  _validate_choice
-  def get_game_choice(message), do: ask_for_game_choice(message) |> Integer.parse |>  _validate_choice
+  def ask_for_game_choice do
+    prompt_user_input_with_message("Choose a game option from 1-4:\n" <>
+                                   "1) Human vs Human "               <>
+                                   "2) Human vs Computer "            <>
+                                   "3) Computer vs Human "            <>
+                                   "4) Computer vs Computer\n")
+  end
+  def ask_for_game_choice(message), do: prompt_user_input_with_message(message)
 
-  def ask_for_game_choice, do: IO.gets "Choose a game option from 1-4:\n" <>
-                                       "1) Human vs Human "               <>
-                                       "2) Human vs Computer "            <>
-                                       "3) Computer vs Human "            <>
-                                       "4) Computer vs Computer\n"
-  def ask_for_game_choice(message), do: IO.gets message
+  defp valid_choice(choice), do: choice |> convert_to_number |> _validate_choice
 
   defp _validate_choice({choice, _}), do: @game_choices[choice]
   defp _validate_choice(:error),      do: get_game_choice("Please choose a number from 1-4: ")
 
+  defp _valid_move(move), do: move |> convert_to_number |> _validate_move
+
   defp _validate_move({move, _}), do: move - 1
   defp _validate_move(:error),    do: get_move("Please choose a valid move: ")
+
+  defp convert_to_number(string), do: Integer.parse(string)
+
+  defp prompt_user_input_with_message(message), do: IO.gets message
 
   defp _get_value({position, index}) when position == "", do: index + 1
   defp _get_value({position, _}), do: position
