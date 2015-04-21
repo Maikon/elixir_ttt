@@ -9,6 +9,15 @@ defmodule Cli.Display do
     |> _show_board
   end
 
+  def ask_for_move,          do: IO.gets "Choose a move from the board: "
+  def ask_for_move(message), do: IO.gets message
+
+  def get_move,          do: ask_for_move |> Integer.parse |> _validate_move
+  def get_move(message), do: ask_for_move(message) |> Integer.parse |> _validate_move
+
+  defp _validate_move({move, _}), do: move - 1
+  defp _validate_move(:error),    do: get_move("Please choose a valid move: ")
+
   defp _get_value({position, index}) when position == "", do: index + 1
   defp _get_value({position, _}), do: position
 
