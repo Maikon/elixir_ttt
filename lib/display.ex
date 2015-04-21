@@ -4,6 +4,12 @@ defmodule Display do
                    3 => :cvh,
                    4 => :cvc }
 
+  def show_welcome_message do
+    IO.puts "****************************\n" <>
+            "** Welcome to Tic-Tac-Toe **\n" <>
+            "****************************\n"
+  end
+
   def show_board(board) do
     board
     |> Enum.with_index

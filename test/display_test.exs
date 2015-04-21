@@ -2,6 +2,13 @@ defmodule DisplayTest do
   use ExUnit.Case
   import ExUnit.CaptureIO
 
+    test "prints welcoming message" do
+      message = capture_io(fn ->
+        Display.show_welcome_message
+      end)
+      assert String.contains?(message, "Welcome to Tic-Tac-Toe")
+    end
+
     test "prints the board" do
       board = ["", "", "", "", "", "", "", "", ""]
       assert capture_io(fn ->
