@@ -1,4 +1,8 @@
 defmodule Cli.Display do
+  @game_choices %{ 1 => :hvh,
+                   2 => :hvc,
+                   3 => :cvh,
+                   4 => :cvc }
 
   def show_board(board) do
     board
@@ -14,6 +18,20 @@ defmodule Cli.Display do
 
   def get_move,          do: ask_for_move |> Integer.parse |> _validate_move
   def get_move(message), do: ask_for_move(message) |> Integer.parse |> _validate_move
+
+
+  def get_game_choice, do: ask_for_game_choice |> Integer.parse |>  _validate_choice
+  def get_game_choice(message), do: ask_for_game_choice(message) |> Integer.parse |>  _validate_choice
+
+  def ask_for_game_choice, do: IO.gets "Choose a game option from 1-4:\n" <>
+                                       "1) Human vs Human "               <>
+                                       "2) Human vs Computer "            <>
+                                       "3) Computer vs Human "            <>
+                                       "4) Computer vs Computer\n"
+  def ask_for_game_choice(message), do: IO.gets message
+
+  defp _validate_choice({choice, _}), do: @game_choices[choice]
+  defp _validate_choice(:error),      do: get_game_choice("Please choose a number from 1-4: ")
 
   defp _validate_move({move, _}), do: move - 1
   defp _validate_move(:error),    do: get_move("Please choose a valid move: ")
