@@ -1,10 +1,8 @@
 defmodule Board do
   @three_by_three 3
-  @four_by_four 4
   @empty_position ""
 
   def new, do: board(@three_by_three)
-  def new(@four_by_four), do: board(@four_by_four)
 
   def mark_position(position, mark, board) do
     cond do
@@ -61,11 +59,6 @@ defmodule Board do
   defp diagonals([[a1, _, a3],
                  [_, b2, _],
                  [c1, _, c3]]), do: [[a1, b2, c3], [a3, b2, c1]]
-
-  defp diagonals([[a1, _, _, a4],
-                 [_, b2, b3, _],
-                 [_, c2, c3, _],
-                 [d1, _, _, d4]]), do: [[a1, b2, c3, d4], [a4, b3, c2, d1]]
 
   defp position_is_valid?(position, board) do
      is_free?(position, board) && position_is_within_bounds(position)

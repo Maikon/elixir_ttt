@@ -29,13 +29,6 @@ defmodule BoardTest do
                                        ["", "", ""]]
   end
 
-  test "returns the rows for 4x4" do
-    assert Board.rows(Board.new(4)) == [["", "", "", ""],
-                                        ["", "", "", ""],
-                                        ["", "", "", ""],
-                                        ["", "", "", ""]]
-  end
-
   test "finds winner in a row" do
     top_row    = ["x", "x", "x", "", "", "", "", "", ""]
     middle_row = ["", "", "", "x", "x", "x", "", "", ""]
