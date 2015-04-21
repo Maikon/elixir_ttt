@@ -1,20 +1,20 @@
-defmodule CLI.DisplayTest do
+defmodule DisplayTest do
   use ExUnit.Case
   import ExUnit.CaptureIO
 
     test "prints the board" do
       board = ["", "", "", "", "", "", "", "", ""]
       assert capture_io(fn ->
-        Cli.Display.show_board(board) end) == "1 | 2 | 3\n"   <>
-                                              "---------\n"   <>
-                                              "4 | 5 | 6\n"   <>
-                                              "---------\n"   <>
-                                              "7 | 8 | 9\n"
+        Display.show_board(board) end) == "1 | 2 | 3\n"   <>
+                                          "---------\n"   <>
+                                          "4 | 5 | 6\n"   <>
+                                          "---------\n"   <>
+                                          "7 | 8 | 9\n"
     end
 
     test "prompts the user for a move" do
       assert capture_io(fn ->
-        Cli.Display.ask_for_move
+        Display.ask_for_move
       end) == "Choose a move from the board: "
     end
 
@@ -22,7 +22,7 @@ defmodule CLI.DisplayTest do
       assert simulate_user_move_with("1") == "0"
     end
 
-    test "handles invalid input" do
+    test "handles invalid move" do
       assert simulate_user_move_with("invalid\n2") == "1"
     end
 
@@ -32,7 +32,7 @@ defmodule CLI.DisplayTest do
 
     test "prompts user for a game choice" do
       assert capture_io(fn ->
-        Cli.Display.ask_for_game_choice
+        Display.ask_for_game_choice
       end) == "Choose a game option from 1-4:\n" <>
               "1) Human vs Human "               <>
               "2) Human vs Computer "            <>
@@ -44,7 +44,7 @@ defmodule CLI.DisplayTest do
       assert simulate_user_game_choice("1") == :hvh
     end
 
-    test "handles invalid input" do
+    test "handles invalid choice" do
       assert simulate_user_game_choice("invalid-input\n1") == :hvh
       assert simulate_user_game_choice("\n1") == :hvh
     end
@@ -58,14 +58,14 @@ defmodule CLI.DisplayTest do
 
     defp simulate_user_game_choice(input) do
       capture_io([input: input, capture_prompt: false], fn ->
-        IO.write Cli.Display.get_game_choice
+        IO.write Display.get_game_choice
       end)
       |> String.to_atom
     end
 
     defp simulate_user_move_with(input) do
       capture_io([input: input, capture_prompt: false], fn ->
-        IO.write Cli.Display.get_move
+        IO.write Display.get_move
       end)
     end
 end

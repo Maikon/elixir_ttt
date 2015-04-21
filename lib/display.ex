@@ -1,4 +1,4 @@
-defmodule Cli.Display do
+defmodule Display do
   @game_choices %{ 1 => :hvh,
                    2 => :hvc,
                    3 => :cvh,
