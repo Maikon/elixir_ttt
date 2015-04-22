@@ -63,6 +63,13 @@ defmodule DisplayTest do
       assert simulate_user_game_choice("4") == :cvc
     end
 
+    test "can display a message" do
+      message = capture_io(fn ->
+        Display.show_message("x won!")
+      end)
+      assert message == "\nx won!\n"
+    end
+
     defp simulate_user_game_choice(input) do
       capture_io([input: input, capture_prompt: false], fn ->
         IO.write Display.get_game_choice

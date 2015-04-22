@@ -19,6 +19,8 @@ defmodule Display do
     |> _show_board
   end
 
+  def show_message(message), do: IO.write "\n#{message}\n"
+
   def get_move,          do: ask_for_move |> _valid_move
   def get_move(message), do: ask_for_move(message) |> _valid_move
 
