@@ -66,19 +66,19 @@ defmodule BoardTest do
   end
 
   test "when the game is ongoing" do
-    assert Board.over?(empty_board) == false
+    assert Board.status(empty_board) == :ongoing
   end
 
   test "when the game has a winner" do
     board_with_win  = ["x", "", "", "x", "", "", "x", "", ""]
 
-    assert Board.over?(board_with_win) == true
+    assert Board.status(board_with_win) == :over
   end
 
   test "when the game is a draw" do
     board_with_draw  = ["x", "o", "x", "x", "o", "x", "o", "x", "o"]
 
-    assert Board.over?(board_with_draw) == true
+    assert Board.status(board_with_draw) == :over
   end
 
   test "knows the mark that goes next" do

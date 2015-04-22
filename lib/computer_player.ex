@@ -8,7 +8,7 @@ defmodule ComputerPlayer do
   end
 
   defp negamax(board, depth) do
-    if @board.over?(board) || depth == 5 do
+    if @board.status(board) == :over || depth == 5 do
       %{:score => score(board), :board => board}
     else
       board

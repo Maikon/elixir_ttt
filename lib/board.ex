@@ -11,7 +11,15 @@ defmodule Board do
     end
   end
 
-  def over?(board), do: winner(board) || draw(board)
+  def status(board), do: board |> check_status
+
+  def check_status(board) do
+    if winner(board) || draw(board) do
+      :over
+    else
+      :ongoing
+    end
+  end
 
   def winner(board) do
     all_lines = rows(board) ++ columns(board) ++ diagonals(rows(board))
