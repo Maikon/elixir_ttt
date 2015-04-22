@@ -44,6 +44,15 @@ defmodule Board do
     Enum.count(board) - Enum.count(available_moves(board))
   end
 
+  def last_move_mark(board) do
+    board
+    |> current_mark
+    |> get_opponent
+  end
+
+  defp get_opponent("x"), do: "o"
+  defp get_opponent("o"), do: "x"
+
   defp get_mark(true),  do: "x"
   defp get_mark(false), do: "o"
 

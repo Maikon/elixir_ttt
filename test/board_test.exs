@@ -88,6 +88,11 @@ defmodule BoardTest do
     assert Board.current_mark(board_with_one_move) == "o"
   end
 
+  test "returns the mark of the last move made" do
+    board  = ["x", "", "o", "", "", "", "", "", ""]
+    assert Board.last_move_mark(board) == "o"
+  end
+
   defp empty_board(), do: Board.new
   defp make_move_on_empty_board(position, mark), do: Board.mark_position(position, mark, Board.new)
   defp winner_in?(line), do: Board.winner(line)
