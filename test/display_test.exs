@@ -70,6 +70,28 @@ defmodule DisplayTest do
       assert message == "\nx won!\n"
     end
 
+    test "asks the user for a rematch" do
+      message = capture_io(fn ->
+        IO.write Display.rematch_message
+      end)
+      assert message == "Would you like to play again? (y)es (n)o:"
+    end
+
+    test "when the user wants a rematch" do
+      assert simulate_rematch_input("y\n") == :yes
+      assert simulate_rematch_input("yes\n") == :yes
+    end
+
+    test "when the user does not want a rematch" do
+      assert simulate_rematch_input("n\n")  == :no
+      assert simulate_rematch_input("no\n") == :no
+    end
+
+    test "handles invalid input for rematch prompt" do
+      assert simulate_rematch_input("invalid\nno\n") == :no
+      assert simulate_rematch_input(" \nyes\n")      == :yes
+    end
+
     defp simulate_user_game_choice(input) do
       capture_io([input: input, capture_prompt: false], fn ->
         IO.write Display.get_game_choice
@@ -81,5 +103,11 @@ defmodule DisplayTest do
       capture_io([input: input, capture_prompt: false], fn ->
         IO.write Display.get_move
       end)
+    end
+
+    defp simulate_rematch_input(input) do
+      capture_io([input: input, capture_prompt: false], fn ->
+        IO.write Display.get_input_for_rematch
+      end) |> String.to_atom
     end
 end

@@ -39,6 +39,37 @@ defmodule Display do
   end
   def ask_for_game_choice(message), do: prompt_user_input_with_message(message)
 
+  def get_input_for_rematch do
+    rematch_message
+    |> prompt_user_input_with_message
+    |> clean_and_validate_response
+  end
+
+  def rematch_message, do: "Would you like to play again? (y)es (n)o:"
+
+  defp get_input_for_rematch(message) do
+    prompt_user_input_with_message(message)
+    |> clean_and_validate_response
+  end
+
+
+  defp clean_and_validate_response(response) do
+    response
+    |> remove_whitespace
+    |> validate_response
+  end
+
+  defp remove_whitespace(string), do: String.strip(string)
+  defp validate_response(response) do
+    case response do
+      "yes" -> :yes
+      "y"   -> :yes
+      "no"  -> :no
+      "n"   -> :no
+      _     -> get_input_for_rematch("Please choose either (y)es or (n)o:")
+    end
+  end
+
   defp valid_choice(choice), do: choice |> convert_to_number |> _validate_choice
 
   defp _validate_choice({choice, _}), do: @game_choices[choice]
