@@ -4,11 +4,24 @@ defmodule ComputerPlayer do
   @rated_node_template %{:score => -10.0, :board => [], :move => -1}
 
   def get_move(%{board: board}) do
-    negamax(board, @initial_depth)[:move]
+    available_moves = @board.available_moves(board)
+    if many_available_moves(available_moves) do
+      available_moves |> pick_random_move
+    else
+      negamax(board, @initial_depth)[:move]
+    end
+  end
+
+  defp many_available_moves(available_moves) do
+    Enum.count(available_moves) >= 9
+  end
+
+  defp pick_random_move(available_moves) do
+    available_moves |> Enum.shuffle |> List.first
   end
 
   defp negamax(board, depth) do
-    if @board.status(board) == :over || depth == 5 do
+    if @board.status(board) == :over do
       %{:score => score(board), :board => board}
     else
       board
