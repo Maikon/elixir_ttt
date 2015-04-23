@@ -43,16 +43,3 @@ defmodule GameTest do
     assert Game.play(setup) == result
   end
 end
-
-defmodule FakeDisplay do
-  def show_welcome_message do
-    send self(), {:greet_players, "Welcoming message was showed"}
-  end
-
-  def show_board(_) do
-    send self(), {:show_board, "Showed the board!"}
-  end
-
-  def get_game_choice,       do: :hvc
-  def get_move,              do: 8
-end
