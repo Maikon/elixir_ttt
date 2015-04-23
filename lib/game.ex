@@ -19,9 +19,9 @@ defmodule Game do
 
   defp final_status(board) do
     if @board.winner(board) do
-      %{board: board, status: @board.last_move_mark(board) <> " won!"}
+      {board, @board.last_move_mark(board) <> " won!"}
     else
-      %{board: board, status: "It's a draw!"}
+      {board, "It's a draw!"}
     end
   end
 

@@ -30,16 +30,16 @@ defmodule GameTest do
   end
 
   test "plays the game until the end" do
-    result = %{board: ["x", "x", "", "o", "o", "o", "", "", "x"],
-               status: "o won!"}
+    result = {["x", "x", "", "o", "o", "o", "", "", "x"],
+              "o won!"}
     assert Game.play(setup) == result
   end
 
   test "end result can vary" do
     board  = ["x", "o", "x", "x", "o", "x", "o", "", ""]
     setup  = %{board: board, display: FakeDisplay}
-    result = %{board: ["x", "o", "x", "x", "o", "x", "o", "x", "o"],
-               status: "It's a draw!"}
+    result = {["x", "o", "x", "x", "o", "x", "o", "x", "o"],
+              "It's a draw!"}
     assert Game.play(setup) == result
   end
 end
