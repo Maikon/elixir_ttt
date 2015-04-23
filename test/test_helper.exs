@@ -15,4 +15,5 @@ defmodule FakeDisplay do
 
   def get_game_choice,       do: :hvc
   def get_move,              do: 8
+  def get_input_for_rematch, do: :no
 end
