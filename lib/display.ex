@@ -47,6 +47,11 @@ defmodule Display do
 
   def rematch_message, do: "Would you like to play again? (y)es (n)o:"
 
+  def clear_screen do
+    IO.ANSI.clear |> IO.write
+    IO.ANSI.home  |> IO.write
+  end
+
   defp get_input_for_rematch(message) do
     prompt_user_input_with_message(message)
     |> clean_and_validate_response

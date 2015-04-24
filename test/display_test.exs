@@ -92,6 +92,13 @@ defmodule DisplayTest do
       assert simulate_rematch_input(" \nyes\n")      == :yes
     end
 
+    test "clears the screen" do
+      message = capture_io(fn ->
+        Display.clear_screen
+      end)
+      assert message == "\e[2J\e[H"
+    end
+
     defp simulate_user_game_choice(input) do
       capture_io([input: input, capture_prompt: false], fn ->
         IO.write Display.get_game_choice
