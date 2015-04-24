@@ -5,21 +5,23 @@ defmodule Display do
                    4 => :cvc }
 
   def show_welcome_message do
-    IO.puts "****************************\n" <>
-            "** Welcome to Tic-Tac-Toe **\n" <>
-            "****************************\n"
+    IO.puts colorize("****************************\n" <>
+                     "** Welcome to Tic-Tac-Toe **\n" <>
+                     "****************************\n", :yellow)
   end
 
   def show_board(board) do
     board
     |> Enum.with_index
     |> Enum.map(fn(position) ->
-      position |> _get_value
+      position
+      |> _get_value
+      |> _set_correct_color
     end)
     |> _show_board
   end
 
-  def show_message(message), do: IO.write "\n#{message}\n"
+  def show_message(message), do: IO.write colorize("\n#{message}\n", :blue)
 
   def get_move,          do: ask_for_move |> _valid_move
   def get_move(message), do: ask_for_move(message) |> _valid_move
@@ -87,10 +89,16 @@ defmodule Display do
 
   defp convert_to_number(string), do: Integer.parse(string)
 
-  defp prompt_user_input_with_message(message), do: IO.gets message
+  defp prompt_user_input_with_message(message), do: IO.gets message <> "\n> "
 
   defp _get_value({position, index}) when position == "", do: index + 1
   defp _get_value({position, _}), do: position
+
+  defp _set_correct_color(mark) when mark == "x", do: colorize(mark, :red)
+  defp _set_correct_color(mark) when mark == "o", do: colorize(mark, :green)
+  defp _set_correct_color(mark), do: mark
+
+  defp colorize(string, color), do: Colorful.string(string, color)
 
   defp _show_board([a1, a2, a3,
                     b1, b2, b3,
