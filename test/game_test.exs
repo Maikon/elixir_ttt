@@ -29,6 +29,17 @@ defmodule GameTest do
     assert recorded_message == "Showed the board!"
   end
 
+  test "clears the screen" do
+    Game.play(setup)
+    recorded_message = receive do
+      {:clear_screen, msg} -> msg
+    after
+      0 -> @default_message
+    end
+
+    assert recorded_message == "Cleared!"
+  end
+
   test "plays the game until the end" do
     result = {["x", "x", "", "o", "o", "o", "", "", "x"],
               "o won!"}

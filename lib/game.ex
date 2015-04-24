@@ -2,6 +2,7 @@ defmodule Game do
   @board Board
 
   def play(%{board: board, display: display}) do
+    display.clear_screen
     display.show_welcome_message
     display.get_game_choice
     |> players
@@ -9,6 +10,7 @@ defmodule Game do
   end
 
   defp _play_game(players, board, display) do
+    display.clear_screen
     display.show_board(board)
     setup = %{board: board, players: players, display: display}
     _play_game(@board.status(board), setup)
