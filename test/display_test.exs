@@ -6,7 +6,7 @@ defmodule DisplayTest do
       message = capture_io(fn ->
         Display.show_welcome_message
       end)
-      assert String.contains?(message, "Welcome to Tic-Tac-Toe")
+      assert message_contains_string(message, "Welcome to Tic-Tac-Toe")
     end
 
     test "prints the board" do
@@ -20,9 +20,10 @@ defmodule DisplayTest do
     end
 
     test "prompts the user for a move" do
-      assert capture_io(fn ->
+      message = assert capture_io(fn ->
         Display.ask_for_move
-      end) == "Choose a move from the board: "
+      end)
+      assert message_contains_string(message, "Choose a move from the board:")
     end
 
     test "returns the move from the user" do
@@ -38,13 +39,14 @@ defmodule DisplayTest do
     end
 
     test "prompts user for a game choice" do
-      assert capture_io(fn ->
+      message = assert capture_io(fn ->
         Display.ask_for_game_choice
-      end) == "Choose a game option from 1-4:\n" <>
-              "1) Human vs Human "               <>
-              "2) Human vs Computer "            <>
-              "3) Computer vs Human "            <>
-              "4) Computer vs Computer\n"
+      end)
+      assert message_contains_string(message,"Choose a game option from 1-4:\n" <>
+                                             "1) Human vs Human "               <>
+                                             "2) Human vs Computer "            <>
+                                             "3) Computer vs Human "            <>
+                                             "4) Computer vs Computer")
     end
 
     test "returns the game choice from the user" do
@@ -67,7 +69,7 @@ defmodule DisplayTest do
       message = capture_io(fn ->
         Display.show_message("x won!")
       end)
-      assert message == "\nx won!\n"
+      assert message_contains_string(message, "x won!")
     end
 
     test "asks the user for a rematch" do
@@ -116,5 +118,9 @@ defmodule DisplayTest do
       capture_io([input: input, capture_prompt: false], fn ->
         IO.write Display.get_input_for_rematch
       end) |> String.to_atom
+    end
+
+    defp message_contains_string(message, string) do
+      String.contains?(message, string)
     end
 end
