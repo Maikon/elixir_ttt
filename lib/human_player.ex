@@ -1,6 +1,6 @@
 defmodule HumanPlayer do
 
-  def get_move(%{display: display}) do
-    display.get_move
+  def get_move(%{display: display, board: board}) do
+    display.get_move(board)
   end
 end
