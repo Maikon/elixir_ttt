@@ -75,8 +75,18 @@ defmodule Display do
 
   defp valid_choice(choice), do: choice |> convert_to_number |> _validate_choice
 
-  defp _validate_choice({choice, _}), do: @game_choices[choice]
-  defp _validate_choice(:error),      do: get_game_choice("Please choose a number from 1-4: ")
+  defp _validate_choice(:error) do
+    get_game_choice("Please choose a number from 1-4: ")
+  end
+
+  defp _validate_choice({choice, _}) do
+    choice = @game_choices[choice]
+    if choice do
+      choice
+    else
+      get_game_choice("Please choose a number from 1-4: ")
+    end
+  end
 
   defp _valid_move(move, board), do: move |> convert_to_number |> _validate_move(board)
 

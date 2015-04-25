@@ -55,7 +55,7 @@ defmodule DisplayTest do
 
     test "handles invalid choice" do
       assert simulate_user_game_choice("invalid-input\n1") == :hvh
-      assert simulate_user_game_choice("\n1") == :hvh
+      assert simulate_user_game_choice("21\n1") == :hvh
     end
 
     test "supports all game modes" do
