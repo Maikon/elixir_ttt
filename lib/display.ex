@@ -4,25 +4,20 @@ defmodule Display do
                    3 => :cvh,
                    4 => :cvc }
   @board Board
+  @board_presenter CLI.BoardPresenter
+  @colorizer CLI.Colorizer
 
   def show_welcome_message do
-    IO.puts colorize("****************************\n" <>
-                     "** Welcome to Tic-Tac-Toe **\n" <>
-                     "****************************\n", :yellow)
+    IO.puts @colorizer.colorize("****************************\n" <>
+                                "** Welcome to Tic-Tac-Toe **\n" <>
+                                "****************************\n", :yellow)
   end
 
   def show_board(board) do
-    board
-    |> Enum.with_index
-    |> Enum.map(fn(position) ->
-      position
-      |> _get_value
-      |> _set_correct_color
-    end)
-    |> _show_board
+    @board_presenter.show(board)
   end
 
-  def show_message(message), do: IO.write colorize("\n#{message}\n", :blue)
+  def show_message(message), do: IO.write @colorizer.colorize("\n#{message}\n", :blue)
 
   def get_move(board),          do: ask_for_move |> _valid_move(board)
   def get_move(board, message), do: ask_for_move(message) |> _valid_move(board)
@@ -101,21 +96,4 @@ defmodule Display do
   defp convert_to_number(string), do: Integer.parse(string)
 
   defp prompt_user_input_with_message(message), do: IO.gets message <> "\n> "
-
-  defp _get_value({position, index}) when position == "", do: index + 1
-  defp _get_value({position, _}), do: position
-
-  defp _set_correct_color(mark) when mark == "x", do: colorize(mark, :red)
-  defp _set_correct_color(mark) when mark == "o", do: colorize(mark, :green)
-  defp _set_correct_color(mark), do: mark
-
-  defp colorize(string, color), do: Colorful.string(string, color)
-
-  defp _show_board([a1, a2, a3,
-                    b1, b2, b3,
-                    c1, c2, c3]), do: IO.write "#{a1} | #{a2} | #{a3}\n" <>
-                                               "---------\n"             <>
-                                               "#{b1} | #{b2} | #{b3}\n" <>
-                                               "---------\n"             <>
-                                               "#{c1} | #{c2} | #{c3}\n"
 end
