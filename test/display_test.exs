@@ -31,7 +31,10 @@ defmodule DisplayTest do
     end
 
     test "handles invalid move" do
-      assert simulate_user_move_with("invalid\n2") == "1"
+      move = capture_io([input: "invalid\n22\n2\n", capture_prompt: false], fn ->
+        IO.write Display.get_move(Board.new)
+      end)
+      assert move == "1"
     end
 
     test "handles empty input" do
