@@ -3,6 +3,7 @@ defmodule CLI.DisplayTest do
   import ExUnit.CaptureIO
 
   @display CLI.Display
+  @board   Board
 
     test "prints welcoming message" do
       message = capture_io(fn ->
@@ -23,14 +24,14 @@ defmodule CLI.DisplayTest do
 
     test "prompts the user for a move" do
       message = capture_io([input: "1"], fn ->
-        IO.write @display.get_move(Board.new)
+        @display.get_move(@board.new)
       end)
       assert message_contains_string(message, "Choose a move from the board:")
     end
 
     test "prompts the user for invalid move" do
       message = capture_io([input: "invalid\n1"], fn ->
-        IO.write @display.get_move(Board.new)
+        @display.get_move(@board.new)
       end)
       assert message_contains_string(message, "Please choose a valid move from the board")
     end
@@ -49,7 +50,7 @@ defmodule CLI.DisplayTest do
 
     test "prompts user for a game choice" do
       message = capture_io([input: "1"], fn ->
-        IO.write @display.get_game_choice
+        @display.get_game_choice
       end)
       assert message_contains_string(message,"Choose a game option from 1-4:\n" <>
                                              "1) Human vs Human "               <>
@@ -81,9 +82,9 @@ defmodule CLI.DisplayTest do
       assert message_contains_string(message, "x won!")
     end
 
-    test "asks the user for a rematch" do
+    test "prompts the user for a rematch" do
       message = capture_io([input: "n\n"], fn ->
-        IO.write @display.get_rematch_choice
+        @display.get_rematch_choice
       end)
       assert message_contains_string(message, "Would you like to play again? (y)es (n)o:")
     end
