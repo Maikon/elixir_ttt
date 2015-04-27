@@ -1,4 +1,4 @@
-defmodule Display do
+defmodule CLI.Display do
   @board_presenter CLI.BoardPresenter
   @move_retriever CLI.MoveRetriever
   @game_choice_retriever CLI.GameChoiceRetriever

@@ -1,10 +1,12 @@
-defmodule DisplayTest do
+defmodule CLI.DisplayTest do
   use ExUnit.Case
   import ExUnit.CaptureIO
 
+  @display CLI.Display
+
     test "prints welcoming message" do
       message = capture_io(fn ->
-        Display.show_welcome_message
+        @display.show_welcome_message
       end)
       assert message_contains_string(message, "Welcome to Tic-Tac-Toe")
     end
@@ -12,23 +14,23 @@ defmodule DisplayTest do
     test "prints the board" do
       board = ["", "", "", "", "", "", "", "", ""]
       assert capture_io(fn ->
-        Display.show_board(board) end) == "1 | 2 | 3\n"   <>
-                                          "---------\n"   <>
-                                          "4 | 5 | 6\n"   <>
-                                          "---------\n"   <>
-                                          "7 | 8 | 9\n"
+        @display.show_board(board) end) == "1 | 2 | 3\n"   <>
+                                           "---------\n"   <>
+                                           "4 | 5 | 6\n"   <>
+                                           "---------\n"   <>
+                                           "7 | 8 | 9\n"
     end
 
     test "prompts the user for a move" do
       message = capture_io([input: "1"], fn ->
-        IO.write Display.get_move(Board.new)
+        IO.write @display.get_move(Board.new)
       end)
       assert message_contains_string(message, "Choose a move from the board:")
     end
 
     test "prompts the user for invalid move" do
       message = capture_io([input: "invalid\n1"], fn ->
-        IO.write Display.get_move(Board.new)
+        IO.write @display.get_move(Board.new)
       end)
       assert message_contains_string(message, "Please choose a valid move from the board")
     end
@@ -47,7 +49,7 @@ defmodule DisplayTest do
 
     test "prompts user for a game choice" do
       message = capture_io([input: "1"], fn ->
-        IO.write Display.get_game_choice
+        IO.write @display.get_game_choice
       end)
       assert message_contains_string(message,"Choose a game option from 1-4:\n" <>
                                              "1) Human vs Human "               <>
@@ -74,14 +76,14 @@ defmodule DisplayTest do
 
     test "can display a message" do
       message = capture_io(fn ->
-        Display.show_message("x won!")
+        @display.show_message("x won!")
       end)
       assert message_contains_string(message, "x won!")
     end
 
     test "asks the user for a rematch" do
       message = capture_io([input: "n\n"], fn ->
-        IO.write Display.get_rematch_choice
+        IO.write @display.get_rematch_choice
       end)
       assert message_contains_string(message, "Would you like to play again? (y)es (n)o:")
     end
@@ -103,27 +105,27 @@ defmodule DisplayTest do
 
     test "clears the screen" do
       message = capture_io(fn ->
-        Display.clear_screen
+        @display.clear_screen
       end)
       assert message == "\e[2J\e[H"
     end
 
     defp simulate_user_game_choice(input) do
       capture_io([input: input, capture_prompt: false], fn ->
-        IO.write Display.get_game_choice
+        IO.write @display.get_game_choice
       end)
       |> String.to_atom
     end
 
     defp simulate_user_move_with(input) do
       capture_io([input: input, capture_prompt: false], fn ->
-        IO.write Display.get_move(Board.new)
+        IO.write @display.get_move(Board.new)
       end)
     end
 
     defp simulate_rematch_input(input) do
       capture_io([input: input, capture_prompt: false], fn ->
-        IO.write Display.get_rematch_choice
+        IO.write @display.get_rematch_choice
       end) |> String.to_atom
     end
 
