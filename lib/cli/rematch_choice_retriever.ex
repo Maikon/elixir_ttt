@@ -1,17 +1,13 @@
 defmodule CLI.RematchChoiceRetriever do
+  @console_interactor CLI.ConsoleInteractor
 
   def get_choice do
-    rematch_message
-    |> prompt_user_input_with_message
+    @console_interactor.prompt_user_with_message("Would you like to play again? (y)es (n)o:")
     |> clean_and_validate_response
   end
 
-  defp rematch_message do
-    "Would you like to play again? (y)es (n)o:"
-  end
-
   defp get_choice(message) do
-    prompt_user_input_with_message(message)
+    @console_interactor.prompt_user_with_message(message)
     |> clean_and_validate_response
   end
 
@@ -34,6 +30,4 @@ defmodule CLI.RematchChoiceRetriever do
       _     -> get_choice("Please choose either (y)es or (n)o:")
     end
   end
-
-  defp prompt_user_input_with_message(message), do: IO.gets message <> "\n> "
 end

@@ -1,9 +1,4 @@
 defmodule Display do
-  @game_choices %{ 1 => :hvh,
-                   2 => :hvc,
-                   3 => :cvh,
-                   4 => :cvc }
-  @board Board
   @board_presenter CLI.BoardPresenter
   @move_retriever CLI.MoveRetriever
   @game_choice_retriever CLI.GameChoiceRetriever
@@ -20,7 +15,9 @@ defmodule Display do
     @board_presenter.show(board)
   end
 
-  def show_message(message), do: IO.write @colorizer.colorize("\n#{message}\n", :blue)
+  def show_message(message) do
+    IO.write @colorizer.colorize("\n#{message}\n", :blue)
+  end
 
   def get_move(board) do
     board |> @move_retriever.get_move
@@ -38,8 +35,4 @@ defmodule Display do
     IO.ANSI.clear |> IO.write
     IO.ANSI.home  |> IO.write
   end
-
-  defp convert_to_number(string), do: Integer.parse(string)
-
-  defp prompt_user_input_with_message(message), do: IO.gets message <> "\n> "
 end

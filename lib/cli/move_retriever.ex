@@ -1,5 +1,6 @@
 defmodule CLI.MoveRetriever do
   @board Board
+  @console_interactor CLI.ConsoleInteractor
 
   def get_move(board) do
     ask_for_move |> _valid_move(board)
@@ -10,19 +11,15 @@ defmodule CLI.MoveRetriever do
   end
 
   defp ask_for_move do
-    prompt_user_input_with_message("Choose a move from the board: ")
+    @console_interactor.prompt_user_with_message("Choose a move from the board: ")
   end
 
   defp ask_for_move(message) do
-    prompt_user_input_with_message(message)
-  end
-
-  defp prompt_user_input_with_message(message) do
-    IO.gets message <> "\n> "
+    @console_interactor.prompt_user_with_message(message)
   end
 
   def _valid_move(move, board) do
-    move |> convert_to_number |> _validate_move(board)
+    move |> @console_interactor.convert_to_number |> _validate_move(board)
   end
 
   defp _validate_move(:error, board) do
@@ -44,6 +41,4 @@ defmodule CLI.MoveRetriever do
   defp within_available_moves(false, board, _) do
     get_move(board, "Please choose a valid move from the board: ")
   end
-
-  defp convert_to_number(string), do: Integer.parse(string)
 end
