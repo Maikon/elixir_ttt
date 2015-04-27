@@ -5,6 +5,7 @@ defmodule Display do
                    4 => :cvc }
   @board Board
   @board_presenter CLI.BoardPresenter
+  @move_retriever CLI.MoveRetriever
   @colorizer CLI.Colorizer
 
   def show_welcome_message do
@@ -19,11 +20,9 @@ defmodule Display do
 
   def show_message(message), do: IO.write @colorizer.colorize("\n#{message}\n", :blue)
 
-  def get_move(board),          do: ask_for_move |> _valid_move(board)
-  def get_move(board, message), do: ask_for_move(message) |> _valid_move(board)
-
-  def ask_for_move,          do: prompt_user_input_with_message("Choose a move from the board: ")
-  def ask_for_move(message), do: prompt_user_input_with_message(message)
+  def get_move(board) do
+    board |> @move_retriever.get_move
+  end
 
   def get_game_choice, do: ask_for_game_choice |> valid_choice
   def get_game_choice(message), do: ask_for_game_choice(message) |> valid_choice
@@ -87,21 +86,6 @@ defmodule Display do
       get_game_choice("Please choose a number from 1-4: ")
     end
   end
-
-  defp _valid_move(move, board), do: move |> convert_to_number |> _validate_move(board)
-
-  defp _validate_move({move, _}, board) do
-    move = move - 1
-    board
-    |> @board.available_moves
-    |> Enum.member?(move)
-    |> within_available_moves(board, move)
-  end
-
-  defp _validate_move(:error, board),    do: get_move(board, "Please choose a valid move: ")
-
-  defp within_available_moves(true, _, move),   do: move
-  defp within_available_moves(false, board, _), do: get_move(board, "Please choose a valid move: ")
 
   defp convert_to_number(string), do: Integer.parse(string)
 

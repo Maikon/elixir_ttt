@@ -20,10 +20,17 @@ defmodule DisplayTest do
     end
 
     test "prompts the user for a move" do
-      message = assert capture_io(fn ->
-        Display.ask_for_move
+      message = capture_io([input: "1"], fn ->
+        IO.write Display.get_move(Board.new)
       end)
       assert message_contains_string(message, "Choose a move from the board:")
+    end
+
+    test "prompts the user for invalid move" do
+      message = capture_io([input: "invalid\n1"], fn ->
+        IO.write Display.get_move(Board.new)
+      end)
+      assert message_contains_string(message, "Please choose a valid move from the board")
     end
 
     test "returns the move from the user" do
