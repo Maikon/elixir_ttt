@@ -16,5 +16,5 @@ defmodule Runner do
   defp get_board, do: Board.new
   defp get_result_message(game), do: elem(game, @game_status_message)
   defp show_message(message, display), do: display.show_message(message)
-  defp user_wants_rematch(display), do: display.get_input_for_rematch
+  defp user_wants_rematch(display), do: display.get_rematch_choice
 end

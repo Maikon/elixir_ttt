@@ -80,10 +80,10 @@ defmodule DisplayTest do
     end
 
     test "asks the user for a rematch" do
-      message = capture_io(fn ->
-        IO.write Display.rematch_message
+      message = capture_io([input: "n\n"], fn ->
+        IO.write Display.get_rematch_choice
       end)
-      assert message == "Would you like to play again? (y)es (n)o:"
+      assert message_contains_string(message, "Would you like to play again? (y)es (n)o:")
     end
 
     test "when the user wants a rematch" do
@@ -123,7 +123,7 @@ defmodule DisplayTest do
 
     defp simulate_rematch_input(input) do
       capture_io([input: input, capture_prompt: false], fn ->
-        IO.write Display.get_input_for_rematch
+        IO.write Display.get_rematch_choice
       end) |> String.to_atom
     end
 
