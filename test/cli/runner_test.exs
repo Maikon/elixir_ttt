@@ -1,23 +1,24 @@
-defmodule RunnerTest do
+defmodule CLI.RunnerTest do
   use ExUnit.Case
   @zero_timeout 0
+  @runner CLI.Runner
 
   def setup do
     %{game: FakeGame, display: FakeDisplay}
   end
 
   test "it starts the game" do
-    Runner.start(setup)
+    @runner.start(setup)
     assert recorded_message == {:play, "Game has begun!"}
   end
 
   test "it restarts the game when user wants another round" do
-    Runner.another_round(:yes, setup)
+    @runner.another_round(:yes, setup)
     assert recorded_message == {:play, "Game has begun!"}
   end
 
   test "it shows farewell message otherwise" do
-    Runner.another_round(:no, setup)
+    @runner.another_round(:no, setup)
     assert recorded_message == {:show_message, "Thanked the user for playing!"}
   end
 

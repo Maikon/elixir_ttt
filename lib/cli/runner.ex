@@ -1,4 +1,4 @@
-defmodule Runner do
+defmodule CLI.Runner do
   @game_status_message 1
 
   def start(%{game: game, display: display}) do
