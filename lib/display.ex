@@ -6,6 +6,7 @@ defmodule Display do
   @board Board
   @board_presenter CLI.BoardPresenter
   @move_retriever CLI.MoveRetriever
+  @game_choice_retriever CLI.GameChoiceRetriever
   @colorizer CLI.Colorizer
 
   def show_welcome_message do
@@ -24,17 +25,9 @@ defmodule Display do
     board |> @move_retriever.get_move
   end
 
-  def get_game_choice, do: ask_for_game_choice |> valid_choice
-  def get_game_choice(message), do: ask_for_game_choice(message) |> valid_choice
-
-  def ask_for_game_choice do
-    prompt_user_input_with_message("Choose a game option from 1-4:\n" <>
-                                   "1) Human vs Human "               <>
-                                   "2) Human vs Computer "            <>
-                                   "3) Computer vs Human "            <>
-                                   "4) Computer vs Computer\n")
+  def get_game_choice do
+    @game_choice_retriever.get_game_choice
   end
-  def ask_for_game_choice(message), do: prompt_user_input_with_message(message)
 
   def get_input_for_rematch do
     rematch_message
@@ -69,21 +62,6 @@ defmodule Display do
       "no"  -> :no
       "n"   -> :no
       _     -> get_input_for_rematch("Please choose either (y)es or (n)o:")
-    end
-  end
-
-  defp valid_choice(choice), do: choice |> convert_to_number |> _validate_choice
-
-  defp _validate_choice(:error) do
-    get_game_choice("Please choose a number from 1-4: ")
-  end
-
-  defp _validate_choice({choice, _}) do
-    choice = @game_choices[choice]
-    if choice do
-      choice
-    else
-      get_game_choice("Please choose a number from 1-4: ")
     end
   end
 

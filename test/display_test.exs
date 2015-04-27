@@ -46,8 +46,8 @@ defmodule DisplayTest do
     end
 
     test "prompts user for a game choice" do
-      message = assert capture_io(fn ->
-        Display.ask_for_game_choice
+      message = capture_io([input: "1"], fn ->
+        IO.write Display.get_game_choice
       end)
       assert message_contains_string(message,"Choose a game option from 1-4:\n" <>
                                              "1) Human vs Human "               <>
