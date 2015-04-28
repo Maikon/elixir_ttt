@@ -22,8 +22,11 @@ defmodule Board do
   end
 
   def winner(board) do
-    all_lines = rows(board) ++ columns(board) ++ diagonals(rows(board))
-    all_lines |> Enum.any?(&(Enum.all?(&1, fn(position) -> matches_rest_of_the_positions(&1, position) end)))
+    board
+    |> all_lines
+    |> Enum.any?(fn(line) ->
+      Enum.all?(line, fn(position) -> matches_rest_of_the_positions(line, position) end)
+    end)
   end
 
   def rows(board) do
@@ -32,8 +35,8 @@ defmodule Board do
 
   def available_moves(board) do
     Enum.with_index(board)
-    |> Enum.filter_map(&(is_free?(position_value(&1))),
-                       &(position_index(&1)))
+    |> Enum.filter_map(fn(position) -> position |> position_value |> is_free? end,
+                       fn(position) -> position |> position_index end)
   end
 
   def current_mark(board) do
@@ -48,6 +51,10 @@ defmodule Board do
     board
     |> current_mark
     |> get_opponent
+  end
+
+  defp all_lines(board) do
+    rows(board) ++ columns(board) ++ diagonals(rows(board))
   end
 
   defp get_opponent("x"), do: "o"
