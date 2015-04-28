@@ -3,7 +3,7 @@ defmodule PlayersFactory do
     :hvh => [HumanPlayer, HumanPlayer],
     :hvc => [HumanPlayer, ComputerPlayer],
     :cvh => [ComputerPlayer, HumanPlayer],
-    :cvc => [ComputerPlayer, ComputerPlayer]
+    :cvc => [SlowComputerPlayer, SlowComputerPlayer]
   }
 
   def get_players_for(choice) do

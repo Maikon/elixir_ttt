@@ -5,6 +5,6 @@ defmodule PlayersFactoryTest do
     assert PlayersFactory.get_players_for(:hvh) == [HumanPlayer, HumanPlayer]
     assert PlayersFactory.get_players_for(:hvc) == [HumanPlayer, ComputerPlayer]
     assert PlayersFactory.get_players_for(:cvh) == [ComputerPlayer, HumanPlayer]
-    assert PlayersFactory.get_players_for(:cvc) == [ComputerPlayer, ComputerPlayer]
+    assert PlayersFactory.get_players_for(:cvc) == [SlowComputerPlayer, SlowComputerPlayer]
   end
 end
