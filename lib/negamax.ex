@@ -25,7 +25,7 @@ defmodule Negamax do
       board
       |> get_nodes
       |> Enum.reduce(rated_node_template(alpha, beta), fn(node, template) ->
-        _negamax(template, node, depth)
+        negamax(template, node, depth)
       end)
     end
   end
@@ -43,7 +43,7 @@ defmodule Negamax do
     @board.mark_position(move, @board.current_mark(board), board)
   end
 
-  defp _negamax(rated_node, new_node, depth) do
+  defp negamax(rated_node, new_node, depth) do
     if rated_node[:alpha] >= rated_node[:beta] do
       rated_node
     else

@@ -32,7 +32,7 @@ defmodule Game do
                 |> get_first_player
                 |> get_move_from_player(%{display: display, board: board})
                 |> make_move(board)
-    swap_players_if_move_made(board, new_board, players) |> play_game(new_board, display)
+    _swap_players_if_move_made(board, new_board, players) |> play_game(new_board, display)
   end
 
   defp get_players(choice), do: PlayersFactory.get_players_for(choice)
@@ -43,6 +43,6 @@ defmodule Game do
 
   defp make_move(move, board), do: @board.mark_position(move, @board.current_mark(board), board)
 
-  defp swap_players_if_move_made(old_board, new_board, players) when old_board == new_board, do: players
-  defp swap_players_if_move_made(_, _, players), do: Enum.reverse(players)
+  defp _swap_players_if_move_made(old_board, new_board, players) when old_board == new_board, do: players
+  defp _swap_players_if_move_made(_, _, players), do: Enum.reverse(players)
 end

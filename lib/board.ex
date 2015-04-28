@@ -40,7 +40,7 @@ defmodule Board do
   end
 
   def current_mark(board) do
-    turn_is_x?(board) |> get_mark
+    turn_is_x?(board) |> _get_mark
   end
 
   def moves_left(board) do
@@ -50,18 +50,18 @@ defmodule Board do
   def last_move_mark(board) do
     board
     |> current_mark
-    |> get_opponent
+    |> _get_opponent
   end
 
   defp all_lines(board) do
     rows(board) ++ columns(board) ++ diagonals(rows(board))
   end
 
-  defp get_opponent("x"), do: "o"
-  defp get_opponent("o"), do: "x"
+  defp _get_opponent("x"), do: "o"
+  defp _get_opponent("o"), do: "x"
 
-  defp get_mark(true),  do: "x"
-  defp get_mark(false), do: "o"
+  defp _get_mark(true),  do: "x"
+  defp _get_mark(false), do: "o"
 
   defp turn_is_x?(board), do: rem(moves_left(board), 2) == 0
 
@@ -72,12 +72,12 @@ defmodule Board do
   end
 
   defp columns(board) do
-    rows(board) |> transpose
+    rows(board) |> _transpose
   end
 
-  defp transpose([[]|_]), do: []
-  defp transpose(rows) do
-    [Enum.map(rows, &hd/1) | transpose(Enum.map(rows, &tl/1))]
+  defp _transpose([[]|_]), do: []
+  defp _transpose(rows) do
+    [Enum.map(rows, &hd/1) | _transpose(Enum.map(rows, &tl/1))]
   end
 
   defp diagonals([[a1, _, a3],
