@@ -10,11 +10,11 @@ defmodule CLI.Runner do
     |> another_round(%{game: game, display: display})
   end
 
-  def another_round(:yes, setup), do: start(setup)
+  def another_round(:yes, setup),              do: start(setup)
   def another_round(:no, %{display: display}), do: display.show_message("Thanks for playing!")
 
-  defp get_board, do: Board.new
-  defp get_result_message(game), do: elem(game, @game_status_message)
+  defp get_board,                      do: Board.new
+  defp get_result_message(game),       do: elem(game, @game_status_message)
   defp show_message(message, display), do: display.show_message(message)
-  defp user_wants_rematch(display), do: display.get_rematch_choice
+  defp user_wants_rematch(display),    do: display.get_rematch_choice
 end

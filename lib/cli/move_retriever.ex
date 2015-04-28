@@ -6,7 +6,7 @@ defmodule CLI.MoveRetriever do
     ask_for_move |> _valid_move(board)
   end
 
-  def get_move(board, message) do
+  defp get_move(board, message) do
     ask_for_move(message) |> _valid_move(board)
   end
 
@@ -31,14 +31,14 @@ defmodule CLI.MoveRetriever do
     board
     |> @board.available_moves
     |> Enum.member?(move)
-    |> within_available_moves(board, move)
+    |> _within_available_moves(board, move)
   end
 
-  defp within_available_moves(true, _, move) do
+  defp _within_available_moves(true, _, move) do
     move
   end
 
-  defp within_available_moves(false, board, _) do
+  defp _within_available_moves(false, board, _) do
     get_move(board, "Please choose a valid move from the board: ")
   end
 end

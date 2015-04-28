@@ -5,22 +5,29 @@ defmodule CLI.GameChoiceRetriever do
                    3 => :cvh,
                    4 => :cvc }
 
-  def get_game_choice, do: ask_for_game_choice |> valid_choice
-  def get_game_choice(message), do: ask_for_game_choice(message) |> valid_choice
-
-  def ask_for_game_choice do
-    @console_interactor.prompt_user_with_message("Choose a game option from 1-4:\n" <>
-                                   "1) Human vs Human "               <>
-                                   "2) Human vs Computer "            <>
-                                   "3) Computer vs Human "            <>
-                                   "4) Computer vs Computer\n")
+  def get_game_choice do
+    ask_for_game_choice |> valid_choice
   end
 
-  def ask_for_game_choice(message) do
+  defp get_game_choice(message) do
+    ask_for_game_choice(message) |> valid_choice
+  end
+
+  defp ask_for_game_choice do
+    @console_interactor.prompt_user_with_message("Choose a game option from 1-4:\n" <>
+                                                 "1) Human vs Human "               <>
+                                                 "2) Human vs Computer "            <>
+                                                 "3) Computer vs Human "            <>
+                                                 "4) Computer vs Computer\n")
+  end
+
+  defp ask_for_game_choice(message) do
     @console_interactor.prompt_user_with_message(message)
   end
 
-  defp valid_choice(choice), do: choice |> @console_interactor.convert_to_number |> _validate_choice
+  defp valid_choice(choice) do
+    choice |> @console_interactor.convert_to_number |> _validate_choice
+  end
 
   defp _validate_choice(:error) do
     get_game_choice("Please choose a number from 1-4: ")

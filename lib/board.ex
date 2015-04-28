@@ -74,8 +74,8 @@ defmodule Board do
   end
 
   defp diagonals([[a1, _, a3],
-                 [_, b2, _],
-                 [c1, _, c3]]), do: [[a1, b2, c3], [a3, b2, c1]]
+                  [_, b2, _],
+                  [c1, _, c3]]), do: [[a1, b2, c3], [a3, b2, c1]]
 
   defp position_is_valid?(position, board) do
      is_free?(position, board) && position_is_within_bounds(position)
