@@ -1,33 +1,30 @@
 defmodule ComputerPlayer do
   @board Board
   @initial_depth 0
-  @rated_node_template %{:score => -10.0, :board => [], :move => -1}
+  @alpha -10.0
+  @beta 10.0
 
   def get_move(%{board: board}) do
-    available_moves = @board.available_moves(board)
-    if many_available_moves(available_moves) do
-      available_moves |> pick_random_move
-    else
-      negamax(board, @initial_depth)[:move]
-    end
+    negamax(board, @initial_depth, @alpha, @beta)[:move]
   end
 
-  defp many_available_moves(available_moves) do
-    Enum.count(available_moves) >= 9
+  defp rated_node_template(alpha, beta) do
+    %{:score => -10.0,
+      :board => [],
+      :move => -1,
+      :alpha => alpha,
+      :beta => beta
+    }
   end
 
-  defp pick_random_move(available_moves) do
-    available_moves |> Enum.shuffle |> List.first
-  end
-
-  defp negamax(board, depth) do
+  defp negamax(board, depth, alpha, beta) do
     if @board.status(board) == :over do
       %{:score => score(board), :board => board}
     else
       board
       |> get_nodes
-      |> Enum.reduce(@rated_node_template, fn(node, template) ->
-        _negamax(template, node, depth)
+      |> Enum.reduce(rated_node_template(alpha, beta), fn(node, template) ->
+        _negamax(template, node, depth, alpha, beta)
       end)
     end
   end
@@ -45,13 +42,22 @@ defmodule ComputerPlayer do
     @board.mark_position(move, @board.current_mark(board), board)
   end
 
-  defp _negamax(template, node, depth) do
-    %{score: score} = negamax(node[:board], depth + 1)
-    negated_score = -score
-    if negated_score > template[:score] do
-      %{:score => negated_score, :board => node[:board], :move => node[:move]}
+  defp _negamax(rated_node, new_node, depth, alpha, beta) do
+    if rated_node[:alpha] >= rated_node[:beta] do
+      rated_node
     else
-      template
+      %{score: score} = negamax(new_node[:board], depth + 1, -rated_node[:beta], -rated_node[:alpha])
+      negated_score = -score
+      if negated_score > rated_node[:score] do
+        %{:score => negated_score,
+          :board => new_node[:board],
+          :move => new_node[:move],
+          :alpha => negated_score,
+          :beta => rated_node[:beta]
+        }
+      else
+        rated_node
+      end
     end
   end
 
