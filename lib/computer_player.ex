@@ -1,15 +1,16 @@
 defmodule ComputerPlayer do
   @board Board
   @initial_depth 0
-  @alpha -10.0
-  @beta 10.0
+  @initial_score 10.0
+  @alpha -@initial_score
+  @beta   @initial_score
 
   def get_move(%{board: board}) do
     negamax(board, @initial_depth, @alpha, @beta)[:move]
   end
 
   defp rated_node_template(alpha, beta) do
-    %{:score => -10.0,
+    %{:score => -@initial_score,
       :board => [],
       :move => -1,
       :alpha => alpha,
@@ -63,7 +64,7 @@ defmodule ComputerPlayer do
 
   defp score(board) do
     if @board.winner(board) do
-      -(10.0 / @board.moves_left(board))
+      -(@initial_score / @board.moves_left(board))
     else
       0
     end
