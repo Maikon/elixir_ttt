@@ -19,7 +19,7 @@ defmodule Negamax do
   end
 
   defp negamax(board, depth, alpha, beta) do
-    if @board.status(board) == :over do
+    if @board.status(board) == :over || depth == 7 do
       %{:score => score(board), :board => board}
     else
       board
